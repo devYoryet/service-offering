@@ -1,38 +1,51 @@
 package com.zosh.modal;
-import jakarta.persistence.*;
-import lombok.Data;
 
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Table(name = "service_offerings")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ServiceOffering {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_offerings_seq_gen")
+    @SequenceGenerator(name = "service_offerings_seq_gen", sequenceName = "service_offerings_seq", allocationSize = 1)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "salon_id", nullable = false)
+    private Long salonId;
+
+    @Column(name = "category_id")
+    private Long categoryId;
+
+    @Column(nullable = false, length = 255)
     private String name;
 
-    @Column(nullable = false)
+    @Column(length = 500)
     private String description;
 
     @Column(nullable = false)
-    private int price;
+    private Integer price;
 
     @Column(nullable = false)
-    private int duration;
+    private Integer duration; // en minutos
 
-    private Long salonId;
+    @Column(name = "available")
+    private Boolean available = true;
 
-    @Column(nullable = false)
-    private boolean available;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    @Column(nullable = false)
-    private Long categoryId;
-
-
-    private String image;
-
-
+    @Column(name = "updated_at", nullable = false)
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
