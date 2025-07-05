@@ -48,4 +48,7 @@ public class ServiceOffering {
     @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(length = 500)
+    private String image;
 }
